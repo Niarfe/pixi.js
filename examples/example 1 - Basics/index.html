@@ -19,9 +19,9 @@
   var theta = 0;
   var puntos = [];
   var bolaz = [];
-  var num = 35;
+  var num = 100;
 	// create an new instance of a pixi stage
-	var stage = new PIXI.Stage;//(0xff0000);
+	var stage = new PIXI.Stage(0xff0000);
 
 	// create a renderer instance
 	var renderer = PIXI.autoDetectRenderer(width, height);
@@ -36,7 +36,8 @@
 
   for (var i = 0; i < num; i++)
   {
-     puntos[i] = [ Math.cos(i) * 200, Math.sin(i) * 200]
+     puntos[i] = [ Math.cos(i) , Math.sin(i) ]
+     //puntos[i] = [i/100, (i*i)/100];
   }
   for (var i = 0; i < num; i++)
   {
@@ -48,8 +49,8 @@
     bunny.anchor.y = 0.5;
 
     // move the sprite to the center of the screen
-    bunny.position.x = Math.cos(i)*200 + width/2;
-    bunny.position.y = Math.sin(i)*200 + height/2;
+    bunny.position.x = puntos[i][0]*200 + width/2;
+    bunny.position.y = puntos[i][1]*200 + height/2;
     bolaz[i] = bunny;
     stage.addChild(bunny);
   }
@@ -59,8 +60,8 @@
       theta = theta + 1;
       for (var i = 0; i < num; i++)
      {
-      bolaz[i].position.x = bolaz[i].position.x * Math.cos(theta) - bolaz[i].position.y * Math.sin(theta); 
-      bolaz[i].position.y = bolaz[i].position.y * Math.sin(theta) + bolaz[i].position.y * Math.sin(theta); 
+      bolaz[i].position.x = puntos[i][0] * 200 * Math.cos(theta/50) - puntos[i][1]*Math.sin(theta/50)*200 +  width/2;// - bolaz[i].position.y * Math.sin(theta/50) + 200; 
+      bolaz[i].position.y = puntos[i][0] * 200 * Math.sin(theta/50) + puntos[i][1]*Math.cos(theta/50)*200 +  height/2;// - bolaz[i].position.y * Math.sin(theta/50) + 200; 
       }
 	    // render the stage
 	    renderer.render(stage);

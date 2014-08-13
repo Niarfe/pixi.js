@@ -14,11 +14,17 @@
 </head>
 <body>
 	<script>
+  var width  = 1024;
+  var height = 768;
+  var theta = 0;
+  var puntos = [];
+  var bolaz = [];
+  var num = 35;
 	// create an new instance of a pixi stage
-	var stage = new PIXI.Stage(0x66FF99);
+	var stage = new PIXI.Stage;//(0xff0000);
 
 	// create a renderer instance
-	var renderer = PIXI.autoDetectRenderer(400, 300);
+	var renderer = PIXI.autoDetectRenderer(width, height);
 
 	// add the renderer view element to the DOM
 	document.body.appendChild(renderer.view);
@@ -26,27 +32,36 @@
 	requestAnimFrame(animate);
 
 	// create a texture from an image path
-	var texture = PIXI.Texture.fromImage("bunny.png");
+	var texture = PIXI.Texture.fromImage("pixel.png");
 
-	// create a new Sprite using the texture
-	var bunny = new PIXI.Sprite(texture);
+  for (var i = 0; i < num; i++)
+  {
+     puntos[i] = [ Math.cos(i) * 200, Math.sin(i) * 200]
+  }
+  for (var i = 0; i < num; i++)
+  {
+    // create a new Sprite using the texture
+    var bunny = new PIXI.Sprite(texture);
 
-	// center the sprites anchor point
-	bunny.anchor.x = 0.5;
-	bunny.anchor.y = 0.5;
+    // center the sprites anchor point
+    bunny.anchor.x = 0.5;
+    bunny.anchor.y = 0.5;
 
-	// move the sprite to the center of the screen
-	bunny.position.x = 200;
-	bunny.position.y = 150;
-
-	stage.addChild(bunny);
+    // move the sprite to the center of the screen
+    bunny.position.x = Math.cos(i)*200 + width/2;
+    bunny.position.y = Math.sin(i)*200 + height/2;
+    bolaz[i] = bunny;
+    stage.addChild(bunny);
+  }
 
 	function animate() {
 	    requestAnimFrame(animate);
-
-	    // just for fun, let's rotate mr rabbit a little
-	    bunny.rotation += 0.1;
-
+      theta = theta + 1;
+      for (var i = 0; i < num; i++)
+     {
+      bolaz[i].position.x = bolaz[i].position.x * Math.cos(theta) - bolaz[i].position.y * Math.sin(theta); 
+      bolaz[i].position.y = bolaz[i].position.y * Math.sin(theta) + bolaz[i].position.y * Math.sin(theta); 
+      }
 	    // render the stage
 	    renderer.render(stage);
 	}
